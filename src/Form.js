@@ -64,8 +64,9 @@ export default function Form() {
 			})
 			.then(function(response) {
 
-				console.log(response.status)
+				console.log(response)
 
+				
 				setSingleUpload(
 	        		<div id="singleFileUploadSuccess" style={{display: "block"}}>
 	        			<p>File Uploaded Successfully.</p>
@@ -75,11 +76,11 @@ export default function Form() {
 			})
 			.catch(function(response) {
 
-				//console.log(response)
+				console.log(response)
 
 				setSingleUpload(
 	        		<div id="singleFileUploadError">
-	        			{(response && response.message) || "Some Error Occurred"}
+	        			 {response.data}
 	        		</div>
         		)
 			})
@@ -93,11 +94,15 @@ export default function Form() {
 
 
 		/*var xhr = new XMLHttpRequest();
-		xhr.open("POST", "http://localhost:8080/uploadFile");
+		//xhr.setRequestHeader('content-type','multipart/form-data');
+		xhr.open('POST', 'http://localhost:8080/uploadFile');
+		
+
 
 		xhr.onload = function() {
-        console.log(xhr.responseText);
-        var response = JSON.parse(xhr.responseText);
+			console.log(xhr.status)
+	        console.log(xhr.responseText);
+	        var response = JSON.parse(xhr.responseText);
 
 	        if(xhr.status == 200) {
 	        	setSingleUpload(
@@ -176,13 +181,16 @@ export default function Form() {
 
 				console.log(response)
 
-				/*setMultiUpload(
+				const rows = response.data.map((file,index) =>
+	        			<p>DownloadUrl : <a key={index} href={file.fileDownloadUri} target='_blank'>{file.fileDownloadUri}</a></p>
+    				)
+
+				setMultiUpload(
 	        		<div id="multipleFileUploadSuccess" style={{display: "block"}}>
 	        			<p>File Uploaded Successfully.</p>
-	        			response.data.fileDownloadUri.map((file,index) =>)
-	        			<p>DownloadUrl : <a href={response.data.fileDownloadUri} target='_blank'>{response.data.fileDownloadUri}</a></p>
+	        			{rows}
 	        		</div>
-        		)*/
+        		)
 			})
 			.catch(function(response) {
 
